@@ -18,4 +18,24 @@ class SnippetController extends Controller
             "snippets" => $snippets,
         ]);
     }
+
+    // get snippet by id
+
+    public function getSnippetById($id)
+    {
+        $snippet = Snippet::with('tags')->find($id);
+        
+        if (!$snippet || $snippet->user_id !== Auth::id()) {
+            return response()->json([
+                "success" => false,
+                "message" => "Snippet not found"
+            ], 404);
+        }
+        
+        return response()->json([
+            "success" => true,
+            "snippet" => $snippet,
+        ]);
+    }
+    
 }

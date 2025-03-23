@@ -10,7 +10,7 @@ use App\Http\Controllers\AuthController;
 
 
 
-// Unauthenticated Routes
+// API Routes with versioning
 Route::group(["prefix" => "v0.1"], function(){
 
     // Authenticated Routes
@@ -18,12 +18,13 @@ Route::group(["prefix" => "v0.1"], function(){
         
         // User Routes
         Route::group(["prefix" => "user"], function(){
+          //  Route::post('/add_update_snippet/{id?}', [SnippetController::class, "addOrUpdateSnippet"]);
             
+           
             });
-        });
+        
 
         // Common Routes
-        Route::post('/edit_profile', [AuthController::class, "editProfile"]);
         Route::post('/logout', [AuthController::class, "logout"]);
     });
 
@@ -32,3 +33,4 @@ Route::group(["prefix" => "v0.1"], function(){
         Route::post('/login', [AuthController::class, "login"]);
         Route::post('/signup', [AuthController::class, "signup"]);
     });
+});

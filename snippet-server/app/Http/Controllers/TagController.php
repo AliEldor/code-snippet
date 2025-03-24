@@ -19,4 +19,27 @@ class TagController extends Controller
             'tags' => $tags
         ]);
     }
+
+    public function getSnippetsByTag($tagName)
+    {
+        // Find the tag
+        $tag = Tag::where('name', $tagName)->first();
+        
+        if (!$tag) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tag not found'
+            ], 404);
+        }
+        
+        // get snippets with this tag for active user
+        $snippets = $tag->snippets()->where('user_id', Auth::id())->get();
+        
+        return response()->json([
+            'success' => true,
+            'tag' => $tag,
+            'snippets' => $snippets
+        ]);
+    }
+
 }

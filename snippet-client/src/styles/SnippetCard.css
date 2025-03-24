@@ -1,0 +1,108 @@
+.snippet-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.snippet-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.snippet-card-header {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #eee;
+}
+
+.snippet-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.language-badge {
+  background-color: #e0e0e0;
+  color: #333;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+.favorite-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #ccc;
+  margin-left: 10px;
+}
+
+.favorite-btn.favorited {
+  color: gold;
+}
+.favorite-btn:hover {
+  color: #f5b014;
+}
+
+.snippet-code-container {
+  position: relative;
+  cursor: pointer;
+  max-height: 200px;
+  overflow: hidden;
+}
+
+.snippet-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 10px 15px;
+}
+
+.tag {
+  background-color: #e3f2fd;
+  color: #1565c0;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.snippet-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 15px;
+  border-top: 1px solid #eee;
+  gap: 8px;
+}
+
+.action-btn {
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  border: none;
+}
+
+.copy-btn {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.edit-btn {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.delete-btn {
+  background-color: #ffebee;
+  color: #c62828;
+}

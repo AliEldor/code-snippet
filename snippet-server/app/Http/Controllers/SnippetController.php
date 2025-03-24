@@ -65,6 +65,7 @@ class SnippetController extends Controller
         $snippet->is_favorite = $request["is_favorite"] ?? false;
         $snippet->save();
 
+        // tags
         if ($request->has('tags') && !empty($request->tags)) {
             // comma between tags
             $tagsList = array_filter(array_map('trim', explode(',', $request->tags)));
@@ -90,4 +91,80 @@ class SnippetController extends Controller
     ]);
 
     }
+
+    public function deleteSnippet($id)
+    {
+        $snippet = Snippet::find($id);
+        
+        if (!$snippet || $snippet->user_id !== Auth::id()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Snippet not found'
+            ], 404);
+        }
+        
+        $snippet->delete();
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Snippet deleted successfully'
+        ]);
+    }
+
+    public function search(Request $request){
+
+        $search = $request->search;
+        $snippets = Snippet::where('user_id', Auth::id());
+        
+        if (!empty($search)) {
+            $snippets->where(function($query) use ($search) {
+                $query->where('title', 'LIKE', "%{$search}%")
+                      ->orWhere('code', 'LIKE', "%{$search}%")
+                      ->orWhere('language', 'LIKE', "%{$search}%");
+            });
+        }
+
+            // language filter
+            if ($request->has('language') && !empty($request->language)) {
+                $snippets->where('language', $request->language);
+            }
+
+            $results = $snippets->with('tags')->get();
+        
+        return response()->json([
+            'success' => true,
+            'snippets' => $results
+        ]);
+    
+    }
+
+    public function updateFavoriteStatus(Request $request, $id){
+    
+    $snippet = Snippet::find($id);
+    
+    // Check if snippet exists
+    if (!$snippet || $snippet->user_id != Auth::id()) {
+        return response()->json([
+            "success" => false,
+            "message" => "Unable to find snippet",
+            "snippet" => null
+        ], 404);
+    }
+    
+    //validte
+    $request->validate([
+        'is_favorite' => 'required|boolean'
+    ]);
+    
+    // Update   status directly from  frontend 
+    $snippet->is_favorite = $request->is_favorite;
+    $snippet->save();
+    
+    return response()->json([
+        "success" => true,
+        "message" => $snippet->is_favorite ? "Added to favorites" : "Removed from favorites",
+        "snippet" => $snippet
+    ]);
+}
+
 }

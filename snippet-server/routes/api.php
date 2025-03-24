@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\User\SnippetController;
+use App\Http\Controllers\User\TagController;
+
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -18,7 +21,20 @@ Route::group(["prefix" => "v0.1"], function(){
         
         // User Routes
         Route::group(["prefix" => "user"], function(){
-          //  Route::post('/add_update_snippet/{id?}', [SnippetController::class, "addOrUpdateSnippet"]);
+          
+            // snippet routes
+            Route::get('/snippets', [SnippetController::class, 'getSnippets']);
+            Route::get('/snippets/search', [SnippetController::class, 'search']);
+            Route::get('/snippets/{id}', [SnippetController::class, 'getSnippetById']);
+            Route::post('/snippets/{id?}', [SnippetController::class, 'addOrUpdateSnippet']);
+            Route::delete('/snippets/{id}', [SnippetController::class, 'deleteSnippet']);
+
+            // Favorite route
+            Route::post('/snippets/{id}/favorite', [SnippetController::class, 'updateFavoriteStatus']);
+
+            //tag routes
+            Route::get('/tags', [TagController::class, 'getTags']);
+            Route::get('/tags/{tagName}/snippets', [TagController::class, 'getSnippetsByTag']);
             
            
             });
